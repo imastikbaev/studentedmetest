@@ -3,17 +3,19 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-
-const links = [
-  { href: '/about', label: 'About' },
-  { href: '/programs', label: 'Programs' },
-  { href: '/advisors', label: 'Advisors' },
-  { href: '/scholarships', label: 'Scholarships' },
-  { href: '/pricing', label: 'Pricing' },
-];
+import { useLanguage, type Locale } from '@/lib/i18n';
 
 export function PublicNav() {
   const pathname = usePathname();
+  const { t, locale, setLocale } = useLanguage();
+
+  const links = [
+    { href: '/about', label: t('nav.about') },
+    { href: '/programs', label: t('nav.programs') },
+    { href: '/advisors', label: t('nav.advisors') },
+    { href: '/scholarships', label: t('nav.scholarships') },
+    { href: '/pricing', label: t('nav.pricing') },
+  ];
 
   return (
     <nav className="relative z-50 border-b border-black/5 bg-background">
@@ -42,12 +44,27 @@ export function PublicNav() {
           </div>
 
           <div className="flex gap-4 items-center">
+            <div className="flex items-center border border-foreground/10 overflow-hidden">
+              {(['en', 'ru'] as Locale[]).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLocale(l)}
+                  className={`px-3 h-8 text-xs uppercase tracking-widest transition-colors ${
+                    locale === l
+                      ? 'bg-foreground text-background'
+                      : 'text-foreground/40 hover:text-foreground'
+                  }`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
             <Link href="/login" className="text-sm tracking-wide uppercase hover:opacity-70 transition-opacity">
-              Log In
+              {t('nav.login')}
             </Link>
             <Link href="/register">
               <Button className="rounded-none bg-foreground text-background hover:bg-foreground/90 px-8 h-12 text-sm tracking-wide uppercase shadow-none">
-                Begin Journey
+                {t('nav.cta')}
               </Button>
             </Link>
           </div>

@@ -5,41 +5,68 @@ import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, GraduationCap, Globe2, FileCheck, MapPin } from 'lucide-react';
 import { PublicFooter } from '@/components/public-footer';
+import { useLanguage } from '@/lib/i18n';
 
 export default function HomePage() {
+  const { t } = useLanguage();
+
   const stagger = {
     animate: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+      transition: { staggerChildren: 0.1 }
+    }
   };
 
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] } }
   };
 
+  const features = [
+    { icon: GraduationCap, title: t('home.step1Title'), desc: t('home.step1Desc'), num: '01' },
+    { icon: FileCheck, title: t('home.step2Title'), desc: t('home.step2Desc'), num: '02' },
+    { icon: Globe2, title: t('home.step3Title'), desc: t('home.step3Desc'), num: '03' },
+    { icon: MapPin, title: t('home.step4Title'), desc: t('home.step4Desc'), num: '04' },
+  ];
+
+  const programs = [
+    { university: 'University of Amsterdam', program: 'MSc Data Science & AI', location: 'Amsterdam, Netherlands', deadline: 'Apr 2025', type: 'Masters' },
+    { university: 'Sciences Po Paris', program: 'Master in International Affairs', location: 'Paris, France', deadline: 'Jan 2025', type: 'Masters' },
+    { university: 'University of Toronto', program: 'MBA Program', location: 'Toronto, Canada', deadline: 'Mar 2025', type: 'MBA' },
+    { university: 'ETH Zurich', program: 'MSc Computer Science', location: 'Zurich, Switzerland', deadline: 'Dec 2024', type: 'Masters' },
+    { university: 'University of Melbourne', program: 'Master of Architecture', location: 'Melbourne, Australia', deadline: 'May 2025', type: 'Masters' },
+    { university: 'LSE', program: 'MSc Finance', location: 'London, UK', deadline: 'Feb 2025', type: 'Masters' },
+  ];
+
+  const testimonials = [
+    { name: 'Aisha M.', program: 'MSc Finance, LSE', country: 'Nigeria → UK', quote: 'Studented.me transformed what felt like an impossible dream into a clear, achievable path. My counselor was exceptional.', year: '2024' },
+    { name: 'Dmitri V.', program: 'MBA, INSEAD', country: 'Russia → France', quote: 'The document support and application strategy were game-changing. I was accepted to my first-choice program.', year: '2024' },
+    { name: 'Mei-Lin C.', program: 'MSc AI, ETH Zurich', country: 'Taiwan → Switzerland', quote: 'Professional, thorough, and genuinely caring. This team helped me navigate every step with confidence.', year: '2023' },
+  ];
+
   return (
-    <div className="min-h-screen bg-background bg-noise overflow-hidden selection:bg-primary/20">
-      {/* Editorial Navigation */}
+    <div className="min-h-screen bg-background bg-noise">
+      {/* Navigation */}
       <nav className="relative z-50 border-b border-black/5">
         <div className="max-w-[90rem] mx-auto px-6 lg:px-12">
           <div className="flex justify-between items-center h-24">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl font-serif font-black tracking-tight text-foreground">
-                Studented.me
-              </span>
+            <span className="text-3xl font-serif font-black tracking-tight text-foreground">Studented.me</span>
+            <div className="hidden md:flex items-center gap-8">
+              {[
+                { href: '/about', label: t('nav.about') },
+                { href: '/programs', label: t('nav.programs') },
+                { href: '/advisors', label: t('nav.advisors') },
+                { href: '/scholarships', label: t('nav.scholarships') },
+                { href: '/pricing', label: t('nav.pricing') },
+              ].map((link) => (
+                <Link key={link.href} href={link.href} className="text-xs tracking-widest uppercase text-foreground/70 hover:text-foreground transition-colors">
+                  {link.label}
+                </Link>
+              ))}
             </div>
-            <div className="flex gap-6 items-center">
-              <Link href="/login" className="text-sm tracking-wide uppercase hover:opacity-70 transition-opacity">
-                Log In
-              </Link>
+            <div className="flex gap-4 items-center">
+              <Link href="/login" className="text-sm tracking-wide uppercase hover:opacity-70 transition-opacity">{t('nav.login')}</Link>
               <Link href="/register">
-                <Button className="rounded-none bg-foreground text-background hover:bg-foreground/90 px-8 h-12 text-sm tracking-wide uppercase">
-                  Begin Journey
-                </Button>
+                <Button className="rounded-none bg-foreground text-background hover:bg-foreground/90 px-8 h-12 text-sm tracking-wide uppercase shadow-none">{t('nav.cta')}</Button>
               </Link>
             </div>
           </div>
@@ -47,183 +74,192 @@ export default function HomePage() {
       </nav>
 
       <main>
-        {/* Editorial Hero Section */}
-        <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-48 px-6 lg:px-12 max-w-[90rem] mx-auto">
+        {/* Hero Section */}
+        <section className="pt-24 pb-32 lg:pt-36 lg:pb-48 px-6 lg:px-12 max-w-[90rem] mx-auto">
           <motion.div
+            variants={stagger}
             initial="initial"
             animate="animate"
-            variants={stagger}
-            className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center"
+            className="grid lg:grid-cols-12 gap-8 lg:gap-12"
           >
-            {/* Left large typography */}
-            <div className="lg:col-span-8 z-10">
-              <motion.h1 
-                variants={fadeInUp}
-                className="text-6xl md:text-8xl lg:text-[7.5rem] leading-[0.9] font-serif font-medium tracking-tighter text-foreground"
-              >
-                The Art of <br />
-                <span className="italic text-primary">Global</span> Education.
-              </motion.h1>
-              
-              <motion.div variants={fadeInUp} className="mt-12 max-w-xl">
-                <p className="text-xl md:text-2xl text-foreground/70 leading-relaxed font-light">
-                  A curated concierge for your international academic journey. From elite university applications to visa orchestration, we elevate the process of studying abroad.
+            <motion.div variants={fadeInUp} className="lg:col-span-9">
+              <div className="inline-flex items-center gap-2 border border-border bg-muted px-4 py-2 rounded-none text-xs uppercase tracking-widest text-muted-foreground mb-12">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                {t('home.badge')}
+              </div>
+              <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-serif font-medium tracking-tighter text-foreground leading-[0.85]">
+                {t('home.hero1')}<br />
+                <em className="not-italic text-primary">{t('home.hero2')}</em><br />
+                {t('home.hero3')}<br />
+                {t('home.hero4')}
+              </h1>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="lg:col-span-5 lg:col-start-6 flex items-end">
+              <div className="border-l border-foreground/10 pl-8">
+                <p className="text-xl text-foreground/70 font-light leading-relaxed mb-10">
+                  {t('home.heroSub')}
                 </p>
-                <div className="flex flex-col sm:flex-row gap-6 mt-12 items-start sm:items-center">
+                <div className="flex gap-4 flex-wrap">
                   <Link href="/register">
-                    <Button size="lg" className="rounded-none bg-primary hover:bg-primary/90 text-primary-foreground text-base h-16 px-10 border-0 group shadow-none">
-                      Explore Programs
+                    <Button className="rounded-none bg-foreground text-background hover:bg-foreground/90 h-14 px-10 text-sm tracking-widest uppercase shadow-none group">
+                      {t('home.ctaPrimary')}
                       <ArrowUpRight className="ml-3 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </Button>
                   </Link>
-                  <Link href="/about" className="text-sm uppercase tracking-widest border-b border-foreground/30 pb-1 hover:border-foreground transition-colors">
-                    Our Philosophy
+                  <Link href="/programs">
+                    <Button variant="outline" className="rounded-none border-foreground/20 h-14 px-10 text-sm tracking-widest uppercase shadow-none hover:bg-muted">
+                      {t('home.ctaSecondary')}
+                    </Button>
                   </Link>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right side abstract/editorial elements */}
-            <motion.div 
-              variants={fadeInUp}
-              className="lg:col-span-4 relative h-full hidden lg:block"
-            >
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[120%] h-[140%] bg-secondary/10 -z-10 rounded-full blur-3xl" />
-              <div className="space-y-12 pl-12 border-l border-foreground/10">
-                <div>
-                  <div className="text-5xl font-serif text-foreground">50+</div>
-                  <div className="text-sm uppercase tracking-widest text-foreground/50 mt-2">Destinations</div>
-                </div>
-                <div>
-                  <div className="text-5xl font-serif text-foreground">10k</div>
-                  <div className="text-sm uppercase tracking-widest text-foreground/50 mt-2">Curated Programs</div>
-                </div>
-                <div>
-                  <div className="text-5xl font-serif text-foreground">95%</div>
-                  <div className="text-sm uppercase tracking-widest text-foreground/50 mt-2">Placement Rate</div>
                 </div>
               </div>
             </motion.div>
           </motion.div>
         </section>
 
-        {/* Asymmetrical Bento/Editorial Features */}
-        <section className="bg-secondary py-32 px-6 lg:px-12 text-secondary-foreground relative z-10">
+        {/* Stats Strip */}
+        <section className="border-t border-b border-foreground/10 py-16 px-6 lg:px-12">
+          <div className="max-w-[90rem] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { num: '12k+', label: t('home.stats1') },
+              { num: '500+', label: t('home.stats2') },
+              { num: '50+', label: t('home.stats3') },
+              { num: '95%', label: t('home.stats4') },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-5xl font-serif text-foreground mb-2">{stat.num}</div>
+                <div className="text-xs uppercase tracking-widest text-foreground/50">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* How It Works */}
+        <section className="py-32 lg:py-48 px-6 lg:px-12">
           <div className="max-w-[90rem] mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="mb-20"
-            >
-              <h2 className="text-4xl md:text-6xl font-serif leading-tight max-w-3xl">
-                A seamless, sophisticated approach to international admissions.
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Large Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="lg:col-span-2 bg-background p-12 lg:p-16 border border-border group"
-              >
-                <Globe2 className="h-10 w-10 text-primary mb-12 stroke-1 group-hover:scale-110 transition-transform duration-500" />
-                <h3 className="text-3xl font-serif mb-6 text-foreground">Global Horizons</h3>
-                <p className="text-lg text-foreground/70 font-light max-w-xl">
-                  Bespoke pairing with institutions across Europe, North America, and Asia. We look beyond rankings to find the academic environment that aligns with your distinct aspirations.
-                </p>
-              </motion.div>
-
-              {/* Smaller Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="bg-background p-12 lg:p-16 border border-border group"
-              >
-                <GraduationCap className="h-10 w-10 text-primary mb-12 stroke-1 group-hover:scale-110 transition-transform duration-500" />
-                <h3 className="text-2xl font-serif mb-6 text-foreground">Scholarships</h3>
-                <p className="text-base text-foreground/70 font-light">
-                  Strategic guidance on securing merit-based financial aid and exclusive grants to fund your studies.
-                </p>
-              </motion.div>
-
-              {/* Smaller Feature Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="bg-background p-12 lg:p-16 border border-border group"
-              >
-                <FileCheck className="h-10 w-10 text-primary mb-12 stroke-1 group-hover:scale-110 transition-transform duration-500" />
-                <h3 className="text-2xl font-serif mb-6 text-foreground">Dossier Curation</h3>
-                <p className="text-base text-foreground/70 font-light">
-                  Impeccable document management. We ensure every application portfolio is polished, verified, and compelling.
-                </p>
-              </motion.div>
-
-              {/* Large Feature Card Image Placeholder (Using Text/Color for now) */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="lg:col-span-2 bg-primary p-12 lg:p-16 flex flex-col justify-between items-start"
-              >
-                <MapPin className="h-10 w-10 text-primary-foreground mb-12 stroke-1" />
-                <div>
-                  <h3 className="text-3xl font-serif mb-6 text-primary-foreground">End-to-End Orchestration</h3>
-                  <p className="text-lg text-primary-foreground/90 font-light max-w-xl">
-                    From finalizing your statement of purpose to navigating complex visa bureaucracy, our advisors provide precise, continuous support until you arrive on campus.
-                  </p>
-                </div>
-              </motion.div>
+            <div className="grid lg:grid-cols-12 gap-8 mb-20">
+              <div className="lg:col-span-4">
+                <p className="text-xs uppercase tracking-widest text-foreground/40 mb-4">{t('home.howTitle')}</p>
+                <h2 className="text-5xl md:text-6xl font-serif tracking-tighter">{t('home.howTitle')}</h2>
+              </div>
+              <div className="lg:col-span-5 lg:col-start-7 flex items-end">
+                <p className="text-lg text-foreground/60 font-light leading-relaxed">{t('home.howSub')}</p>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0">
+              {features.map((feature, i) => (
+                <motion.div
+                  key={feature.num}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="border border-border p-10 flex flex-col gap-6 group hover:bg-muted transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <feature.icon className="h-6 w-6 text-primary" />
+                    <span className="text-xs font-serif text-foreground/20">{feature.num}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl mb-3">{feature.title}</h3>
+                    <p className="text-sm text-foreground/60 font-light leading-relaxed">{feature.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Minimalist Process Section */}
+        {/* Featured Programs */}
+        <section className="py-32 px-6 lg:px-12 bg-secondary text-secondary-foreground">
+          <div className="max-w-[90rem] mx-auto">
+            <div className="flex items-end justify-between mb-20">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-secondary-foreground/40 mb-4">{t('home.featuredTitle')}</p>
+                <h2 className="text-5xl font-serif">{t('home.featuredTitle')}</h2>
+                <p className="text-secondary-foreground/60 font-light mt-4 max-w-md">{t('home.featuredSub')}</p>
+              </div>
+              <Link href="/programs" className="hidden md:flex items-center gap-2 text-sm uppercase tracking-widest text-secondary-foreground/60 hover:text-secondary-foreground transition-colors group">
+                {t('home.viewAll')}
+                <ArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
+              {programs.map((program, i) => (
+                <motion.div
+                  key={`${program.university}-${i}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.05 }}
+                  viewport={{ once: true }}
+                  className="border border-secondary-foreground/10 p-8 flex flex-col gap-4 group hover:bg-secondary-foreground/5 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs uppercase tracking-widest text-primary border border-primary/30 px-2 py-1">{program.type}</span>
+                    <span className="text-xs text-secondary-foreground/40">Due {program.deadline}</span>
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl mb-1 group-hover:text-primary transition-colors">{program.program}</h3>
+                    <p className="text-secondary-foreground/60 font-light text-sm">{program.university}</p>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-secondary-foreground/40 mt-auto">
+                    <MapPin className="h-3 w-3" />
+                    {program.location}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
         <section className="py-32 px-6 lg:px-12">
           <div className="max-w-[90rem] mx-auto">
-            <div className="border-t border-foreground p-8" />
-            
-            <div className="grid lg:grid-cols-2 gap-20">
-              <div>
-                <h2 className="text-5xl font-serif sticky top-32">The Method.</h2>
-              </div>
-              
-              <div className="space-y-24">
-                {[
-                  { step: '01', title: 'Consultation', desc: 'A rigorous review of your academic profile and personal ambitions.' },
-                  { step: '02', title: 'Selection', desc: 'Curating a tailored list of exceptional institutions and programs.' },
-                  { step: '03', title: 'Preparation', desc: 'Refining applications, essays, and portfolios to perfection.' },
-                  { step: '04', title: 'Acceptance', desc: 'Managing offers, securing visas, and transition planning.' }
-                ].map((item, i) => (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    className="relative pl-12 border-l border-foreground/10 pb-12"
-                  >
-                    <span className="absolute -left-[2px] top-0 text-sm font-serif text-primary bg-background py-2">
-                      {item.step}
-                    </span>
-                    <h3 className="text-3xl font-serif mb-4">{item.title}</h3>
-                    <p className="text-lg text-foreground/60 font-light leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
+            <div className="border-t border-foreground/10 pt-12 mb-20">
+              <p className="text-xs uppercase tracking-widest text-foreground/40 mb-4">{t('home.testimonialsTitle')}</p>
+              <h2 className="text-5xl font-serif">{t('home.testimonialsTitle')}</h2>
+              <p className="text-foreground/60 font-light mt-4">{t('home.testimonialsSub')}</p>
             </div>
+            <div className="grid md:grid-cols-3 gap-0">
+              {testimonials.map((testimonial, i) => (
+                <motion.div
+                  key={testimonial.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="border border-border p-10 flex flex-col gap-6"
+                >
+                  <p className="text-xl font-serif font-light leading-relaxed italic text-foreground/80">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </p>
+                  <div className="mt-auto border-t border-foreground/10 pt-6">
+                    <div className="font-serif text-lg">{testimonial.name}</div>
+                    <div className="text-sm text-primary font-light">{testimonial.program}</div>
+                    <div className="text-xs text-foreground/40 mt-1 uppercase tracking-wide">{testimonial.country} · {testimonial.year}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-32 px-6 lg:px-12 bg-primary">
+          <div className="max-w-[90rem] mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+            <div>
+              <h2 className="text-5xl md:text-6xl font-serif text-primary-foreground mb-4">
+                {t('home.ctaSection')}
+              </h2>
+              <p className="text-primary-foreground/70 font-light text-lg">{t('home.ctaSectionSub')}</p>
+            </div>
+            <Link href="/register">
+              <Button className="rounded-none bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-16 px-12 text-sm tracking-widest uppercase shadow-none group shrink-0">
+                {t('home.ctaSectionBtn')}
+                <ArrowUpRight className="ml-3 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
         </section>
       </main>

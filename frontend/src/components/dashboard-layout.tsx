@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
+import { useLanguage } from '@/lib/i18n';
 import {
   LayoutDashboard,
   Search,
@@ -13,18 +14,19 @@ import {
   LogOut,
 } from 'lucide-react';
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Search Programs', href: '/dashboard/programs', icon: Search },
-  { name: 'My Applications', href: '/dashboard/applications', icon: FileText },
-  { name: 'Documents', href: '/dashboard/documents', icon: FolderOpen },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
-];
-
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const { user, isAuthenticated, isLoading, logout, checkAuth } = useAuth();
+  const { t, locale, setLocale } = useLanguage();
+
+  const navigation = [
+    { name: t('dashboard.nav.dashboard'), href: '/dashboard', icon: LayoutDashboard },
+    { name: t('dashboard.nav.programs'), href: '/dashboard/programs', icon: Search },
+    { name: t('dashboard.nav.applications'), href: '/dashboard/applications', icon: FileText },
+    { name: t('dashboard.nav.documents'), href: '/dashboard/documents', icon: FolderOpen },
+    { name: t('dashboard.nav.settings'), href: '/dashboard/settings', icon: Settings },
+  ];
 
   useEffect(() => {
     checkAuth();
@@ -100,14 +102,28 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
+        {/* Language switcher */}
+        <div className="px-6 py-4 border-b border-background/10">
+          <div className="flex items-center border border-background/20 overflow-hidden w-fit">
+            {(['en', 'ru'] as const).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLocale(l)}
+                className={`px-3 h-7 text-xs uppercase tracking-widest transition-colors ${
+                  locale === l ? 'bg-background text-foreground' : 'text-background/40 hover:text-background'
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Logout */}
         <div className="p-4 border-t border-background/10">
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 w-full text-sm text-background/50 hover:text-background transition-colors"
-          >
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 w-full text-sm text-background/50 hover:text-background transition-colors">
             <LogOut className="h-4 w-4" />
-            <span>Sign Out</span>
+            <span>{t('dashboard.nav.signout')}</span>
           </button>
         </div>
       </aside>

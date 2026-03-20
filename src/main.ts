@@ -29,6 +29,8 @@ export async function setupApp(app: INestApplication) {
   const origins = process.env.CORS_ORIGIN?.split(',') || [
     'http://localhost:3000',
     'http://localhost:3001',
+    'http://localhost:3002',
+    'http://localhost:3003',
     'https://studented.me',
     'https://www.studented.me',
     'https://frontend-amastikbays-projects.vercel.app'
