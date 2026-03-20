@@ -3,11 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { GraduationCap } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/lib/auth';
 
 export default function LoginPage() {
@@ -22,7 +18,6 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       await login(email, password);
       router.push('/dashboard');
@@ -34,65 +29,102 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-purple-50 to-white px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1 text-center">
-          <div className="flex justify-center mb-4">
-            <Link href="/" className="flex items-center gap-2">
-              <GraduationCap className="h-10 w-10 text-primary" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+    <div className="min-h-screen bg-background bg-noise flex">
+      {/* Left brand panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-secondary flex-col justify-between p-16">
+        <Link href="/">
+          <span className="text-3xl font-serif font-black tracking-tight text-secondary-foreground hover:text-primary transition-colors">
+            Studented.me
+          </span>
+        </Link>
+        <div>
+          <h2 className="text-5xl font-serif text-secondary-foreground mb-6 leading-tight">
+            Your Global<br />
+            <span className="italic text-primary">Education</span><br />
+            Awaits.
+          </h2>
+          <p className="text-secondary-foreground/50 font-light text-lg">
+            Access 10,000+ curated programs across 50+ countries.
+          </p>
+        </div>
+        <p className="text-secondary-foreground/30 text-xs uppercase tracking-widest">
+          Excellence in Education
+        </p>
+      </div>
+
+      {/* Right form panel */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 md:px-16 lg:px-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-md w-full mx-auto"
+        >
+          <div className="lg:hidden mb-12">
+            <Link href="/">
+              <span className="text-2xl font-serif font-black tracking-tight text-foreground">
                 Studented.me
               </span>
             </Link>
           </div>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to your account to continue</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+
+          <p className="text-xs uppercase tracking-widest text-primary mb-4">Welcome Back</p>
+          <h1 className="text-4xl font-serif font-medium tracking-tight text-foreground mb-12">
+            Sign in to your account
+          </h1>
+
+          <form onSubmit={handleSubmit} className="space-y-8">
             {error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-md">
+              <div className="border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                 {error}
               </div>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">
+                Email
+              </label>
+              <input
                 type="email"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">
+                Password
+              </label>
+              <input
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-none bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 h-14 text-sm tracking-widest uppercase transition-colors"
+            >
               {loading ? 'Signing in...' : 'Sign In'}
-            </Button>
+            </button>
           </form>
 
-          <div className="mt-6 text-center text-sm">
-            <span className="text-gray-600">Don&apos;t have an account? </span>
-            <Link href="/register" className="text-primary hover:underline font-medium">
-              Sign up
+          <p className="mt-10 text-sm text-foreground/50">
+            Don't have an account?{' '}
+            <Link href="/register" className="text-foreground underline underline-offset-4 hover:text-primary transition-colors">
+              Create one
             </Link>
-          </div>
-        </CardContent>
-      </Card>
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 }

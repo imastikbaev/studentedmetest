@@ -1,243 +1,137 @@
 'use client';
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { GraduationCap, Mail, Phone, MapPin, Clock, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { PublicNav } from '@/components/public-nav';
+import { PublicFooter } from '@/components/public-footer';
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: [0.2, 0.65, 0.3, 0.9] },
+};
+
+const offices = [
+  { city: 'Boston', country: 'USA', address: '123 Education Street, Boston, MA 02101', phone: '+1 (555) 123-4567', email: 'boston@studented.me' },
+  { city: 'London', country: 'UK', address: '45 Oxford Street, London W1D 2DZ', phone: '+44 20 1234 5678', email: 'london@studented.me' },
+  { city: 'Singapore', country: 'Singapore', address: '1 Marina Boulevard, Singapore 018989', phone: '+65 6123 4567', email: 'singapore@studented.me' },
+];
 
 export default function ContactPage() {
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: 'Email Us',
-      details: 'support@studented.me',
-      description: 'We typically respond within 24 hours',
-    },
-    {
-      icon: Phone,
-      title: 'Call Us',
-      details: '+1 (555) 123-4567',
-      description: 'Mon-Fri, 9AM-6PM EST',
-    },
-    {
-      icon: MapPin,
-      title: 'Visit Us',
-      details: '123 Education Street, Boston, MA 02101',
-      description: 'Schedule an appointment',
-    },
-    {
-      icon: Clock,
-      title: 'Business Hours',
-      details: 'Monday - Friday: 9AM - 6PM EST',
-      description: 'Closed on weekends and holidays',
-    },
-  ];
-
-  const offices = [
-    {
-      city: 'Boston',
-      country: 'USA',
-      address: '123 Education Street, Boston, MA 02101',
-      phone: '+1 (555) 123-4567',
-      email: 'boston@studented.me',
-    },
-    {
-      city: 'London',
-      country: 'UK',
-      address: '45 Oxford Street, London W1D 2DZ',
-      phone: '+44 20 1234 5678',
-      email: 'london@studented.me',
-    },
-    {
-      city: 'Singapore',
-      country: 'Singapore',
-      address: '1 Marina Boulevard, Singapore 018989',
-      phone: '+65 6123 4567',
-      email: 'singapore@studented.me',
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center gap-2">
-              <GraduationCap className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Studented.me
-              </span>
-            </Link>
-            <div className="flex gap-4">
-              <Link href="/about">
-                <Button variant="ghost">About</Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="ghost">Contact</Button>
-              </Link>
-              <Link href="/careers">
-                <Button variant="ghost">Careers</Button>
-              </Link>
-              <Link href="/login">
-                <Button variant="ghost">Login</Button>
-              </Link>
-              <Link href="/register">
-                <Button>Get Started</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-background bg-noise">
+      <PublicNav />
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-            Get in
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              {' '}Touch
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Have questions about studying abroad? Our team of expert counselors is here to help
-            you every step of the way.
-          </p>
-        </motion.div>
-      </section>
+      <main>
+        {/* Hero */}
+        <section className="pt-24 pb-20 lg:pt-36 px-6 lg:px-12 max-w-[90rem] mx-auto border-b border-foreground/10">
+          <motion.div {...fadeInUp}>
+            <p className="text-xs uppercase tracking-widest text-primary mb-8">Contact</p>
+            <h1 className="text-6xl md:text-8xl font-serif font-medium tracking-tighter text-foreground leading-[0.9]">
+              Let's Start a<br />
+              <span className="italic text-primary">Conversation.</span>
+            </h1>
+            <p className="mt-10 text-xl text-foreground/70 font-light max-w-lg leading-relaxed">
+              Whether you have questions about programs, pricing, or the admissions process — our team is here to guide you.
+            </p>
+          </motion.div>
+        </section>
 
-      {/* Contact Info Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {contactInfo.map((info, index) => (
+        {/* Contact form + info */}
+        <section className="py-32 px-6 lg:px-12 max-w-[90rem] mx-auto">
+          <div className="grid lg:grid-cols-2 gap-24">
+            {/* Form */}
             <motion.div
-              key={info.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <Card className="h-full hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
-                  <info.icon className="h-10 w-10 text-purple-600 mb-4" />
-                  <h3 className="text-lg font-bold mb-2">{info.title}</h3>
-                  <p className="text-gray-900 font-semibold mb-1">{info.details}</p>
-                  <p className="text-sm text-gray-600">{info.description}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Form & Info */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3 mb-6">
-                <MessageSquare className="h-6 w-6 text-purple-600" />
-                <h2 className="text-2xl font-bold">Send Us a Message</h2>
-              </div>
-              <form className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+              <h2 className="text-3xl font-serif mb-12">Send Us a Message</h2>
+              <form className="space-y-8">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2">First Name</label>
-                    <Input placeholder="John" />
+                    <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">First Name</label>
+                    <input
+                      type="text"
+                      placeholder="John"
+                      className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors"
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Last Name</label>
-                    <Input placeholder="Doe" />
+                    <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">Last Name</label>
+                    <input
+                      type="text"
+                      placeholder="Doe"
+                      className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors"
+                    />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input type="email" placeholder="john@example.com" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Phone (Optional)</label>
-                  <Input type="tel" placeholder="+1 (555) 123-4567" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Subject</label>
-                  <Input placeholder="How can we help you?" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Message</label>
-                  <Textarea
-                    placeholder="Tell us more about what you need..."
-                    rows={6}
+                  <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">Email</label>
+                  <input
+                    type="email"
+                    placeholder="john@example.com"
+                    className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors"
                   />
                 </div>
-                <Button size="lg" className="w-full">
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">Subject</label>
+                  <input
+                    type="text"
+                    placeholder="How can we help?"
+                    className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-foreground/50 mb-3">Message</label>
+                  <textarea
+                    rows={5}
+                    placeholder="Tell us more about what you need..."
+                    className="w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary transition-colors resize-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="rounded-none bg-foreground text-background hover:bg-foreground/90 px-12 h-14 text-sm tracking-widest uppercase transition-colors"
+                >
                   Send Message
-                </Button>
+                </button>
               </form>
-            </CardContent>
-          </Card>
+            </motion.div>
 
-          {/* Office Locations */}
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold mb-6">Our Offices</h2>
-            {offices.map((office, index) => (
-              <motion.div
-                key={office.city}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Card className="hover:shadow-lg transition-shadow">
-                  <CardContent className="pt-6">
-                    <h3 className="text-xl font-bold mb-1">{office.city}</h3>
-                    <p className="text-sm text-gray-600 mb-4">{office.country}</p>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-start gap-2">
-                        <MapPin className="h-4 w-4 text-gray-400 mt-0.5" />
-                        <span className="text-gray-600">{office.address}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-gray-400" />
-                        <span className="text-gray-600">{office.phone}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-gray-400" />
-                        <span className="text-gray-600">{office.email}</span>
-                      </div>
+            {/* Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="space-y-16"
+            >
+              <div>
+                <p className="text-xs uppercase tracking-widest text-foreground/40 mb-4">General</p>
+                <p className="text-lg font-light text-foreground/70">support@studented.me</p>
+                <p className="text-lg font-light text-foreground/70">+1 (555) 123-4567</p>
+                <p className="text-sm text-foreground/40 mt-2">Mon–Fri, 9AM–6PM EST</p>
+              </div>
+
+              <div className="border-t border-foreground/10 pt-12">
+                <p className="text-xs uppercase tracking-widest text-foreground/40 mb-8">Our Offices</p>
+                <div className="space-y-10">
+                  {offices.map((office) => (
+                    <div key={office.city} className="border-l border-foreground/10 pl-8">
+                      <h3 className="font-serif text-xl mb-1">{office.city}</h3>
+                      <p className="text-xs uppercase tracking-widest text-foreground/40 mb-3">{office.country}</p>
+                      <p className="text-sm text-foreground/60 font-light">{office.address}</p>
+                      <p className="text-sm text-foreground/60 font-light mt-1">{office.phone}</p>
+                      <p className="text-sm text-primary font-light mt-1">{office.email}</p>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* FAQ Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200">
-          <CardContent className="pt-12 pb-12">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold mb-4">Looking for Quick Answers?</h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Check out our FAQ section for instant answers to common questions
-              </p>
-              <Link href="/faq">
-                <Button size="lg" variant="outline">
-                  Visit FAQ
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+      <PublicFooter />
     </div>
   );
 }
