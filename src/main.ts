@@ -33,7 +33,9 @@ export async function setupApp(app: INestApplication) {
     'http://localhost:3003',
     'https://studented.me',
     'https://www.studented.me',
-    'https://frontend-amastikbays-projects.vercel.app'
+    'https://frontend-theta-nine-83.vercel.app',
+    'https://frontend-amastikbays-projects.vercel.app',
+    /\.vercel\.app$/,
   ];
   
   app.enableCors({
