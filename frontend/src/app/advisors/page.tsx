@@ -65,7 +65,7 @@ export default function AdvisorsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.05 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0 }}
                 className="border border-border p-10 flex flex-col gap-4 group hover:bg-muted transition-colors"
               >
                 <div className="flex items-start justify-between">

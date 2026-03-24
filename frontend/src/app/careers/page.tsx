@@ -78,7 +78,7 @@ export default function CareersPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.05 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0 }}
                   className="border border-border p-10 flex flex-col gap-3"
                 >
                   <span className="text-xs font-serif text-primary">{String(i + 1).padStart(2, '0')}</span>
@@ -104,7 +104,7 @@ export default function CareersPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.05 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0 }}
                   className="border-t border-foreground/10 py-10 flex flex-col md:flex-row md:items-start justify-between gap-6 group"
                 >
                   <div className="flex-1">

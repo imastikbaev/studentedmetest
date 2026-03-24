@@ -129,7 +129,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="ml-64 flex-1 min-h-screen bg-background">
+      <main className="ml-64 flex-1 min-h-screen bg-background p-8">
         {children}
       </main>
     </div>

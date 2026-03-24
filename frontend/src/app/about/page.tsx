@@ -82,7 +82,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0 }}
                   className="border border-secondary-foreground/10 p-12 flex flex-col gap-4"
                 >
                   <span className="text-xs font-serif text-primary">{String(i + 1).padStart(2, '0')}</span>
@@ -107,7 +107,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: i * 0.05 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0 }}
                   className="border border-border p-10 flex flex-col gap-3 group hover:bg-muted transition-colors"
                 >
                   <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-serif text-lg mb-4">
